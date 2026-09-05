@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0758a6">
+<title>Convite Miguel</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#0758a6;font-family:Arial,Helvetica,sans-serif}
+body{min-height:100vh}
+.screen{display:none;min-height:100svh;width:100%;align-items:flex-start;justify-content:center}
+.screen.active{display:flex}
+.wrap{position:relative;width:min(100vw,887px);background:#fff;overflow:hidden}
+.gift-wrap{position:relative;width:min(100vw,941px);background:#0758a6;overflow:hidden}
+.art{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none}
+.hero-video{position:absolute;left:0;top:0;width:100%;height:26.4%;overflow:hidden;background:#071523;z-index:4}
+.hero-video video{display:block;width:100%;height:100%;object-fit:cover;object-position:center center;background:#071523}
+.sound-btn,.play-btn{position:absolute;z-index:8;border:0;color:#fff;font-weight:800;cursor:pointer}
+.sound-btn{left:3.2%;top:2%;border-radius:999px;padding:10px 14px;background:rgba(0,0,0,.62);font-size:clamp(12px,2.4vw,20px)}
+.play-btn{left:50%;top:13.2%;transform:translate(-50%,-50%);width:72px;height:72px;border-radius:50%;background:rgba(0,0,0,.62);font-size:30px;display:none}
+.hit{position:absolute;z-index:9;border:0;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.map{left:6.3%;top:68%;width:40.7%;height:7%;border-radius:999px}
+.gift{left:50%;top:68%;width:40.7%;height:7%;border-radius:999px}
+.back{left:31%;top:81.7%;width:44%;height:8.3%;border-radius:40px}
+@media(max-width:700px){.wrap,.gift-wrap{width:100vw}.sound-btn{padding:8px 11px}.play-btn{width:58px;height:58px;font-size:24px}}
+</style>
+</head>
+<body>
+<section id="convite" class="screen active">
+<div class="wrap">
+<img class="art" src="pagina2.png?v=8" alt="Convite de aniversário do Miguel">
+<div class="hero-video">
+  <video id="heroVideo" muted playsinline loop preload="auto" poster="video_poster.jpg">
+    <source src="video.mp4?v=20260905c" type="video/mp4">
+  </video>
+</div>
+<button id="soundBtn" class="sound-btn" type="button">🔊 ATIVE O SOM</button>
+<button id="playBtn" class="play-btn" type="button" aria-label="Reproduzir vídeo">▶</button>
+<a class="hit map" href="https://share.google/RATroQ6fF8vEOdBfI" target="_blank" rel="noopener noreferrer"></a>
+<button class="hit gift" type="button" onclick="showGifts()"></button>
+</div>
+</section>
+
+<section id="presentes" class="screen">
+<div class="gift-wrap">
+<img class="art" src="presentes.png?v=8" alt="Sugestões de presente para Miguel">
+<button class="hit back" type="button" onclick="showInvite()"></button>
+</div>
+</section>
+
+<script>
+const video=document.getElementById('heroVideo');
+const soundBtn=document.getElementById('soundBtn');
+const playBtn=document.getElementById('playBtn');
+
+async function startVideo(){
+  video.muted=true;
+  try{
+    await video.play();
+    playBtn.style.display='none';
+  }catch(e){
+    playBtn.style.display='block';
+  }
+}
+window.addEventListener('load', startVideo);
+video.addEventListener('canplay', startVideo, {once:true});
+video.addEventListener('error', ()=>{ playBtn.style.display='block'; });
+
+playBtn.addEventListener('click', async ()=>{
+  try{ await video.play(); playBtn.style.display='none'; }catch(e){}
+});
+
+soundBtn.addEventListener('click', async ()=>{
+  if(video.paused){ try{ await video.play(); }catch(e){} }
+  video.muted=!video.muted;
+  soundBtn.textContent=video.muted?'🔊 ATIVE O SOM':'🔇 DESATIVAR SOM';
+});
+
+function showGifts(){
+  document.getElementById('convite').classList.remove('active');
+  document.getElementById('presentes').classList.add('active');
+  video.pause(); window.scrollTo(0,0);
+}
+function showInvite(){
+  document.getElementById('presentes').classList.remove('active');
+  document.getElementById('convite').classList.add('active');
+  startVideo(); window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>

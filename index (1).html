@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0758a6">
+  <title>Convite Miguel</title>
+  <style>
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:#0758a6;font-family:Arial,Helvetica,sans-serif}
+    body{min-height:100vh}
+    .screen{display:none;min-height:100svh;width:100%;align-items:flex-start;justify-content:center}
+    .screen.active{display:flex}
+    .wrap{position:relative;width:min(100vw,887px);background:#fff;overflow:hidden}
+    .gift-wrap{position:relative;width:min(100vw,941px);background:#0758a6;overflow:hidden}
+    .art{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none}
+
+    /* Vídeo integrado ao topo da arte */
+    .hero-video{
+      position:absolute;
+      left:0;
+      top:0;
+      width:100%;
+      height:26.4%;
+      overflow:hidden;
+      background:#071523;
+      z-index:4;
+    }
+    .hero-video video{
+      display:block;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:center center;
+      background:#071523;
+    }
+
+    /* botão discreto para liberar o áudio */
+    .sound-btn{
+      position:absolute;
+      left:3.2%;
+      top:2.0%;
+      z-index:8;
+      border:0;
+      border-radius:999px;
+      padding:10px 14px;
+      background:rgba(0,0,0,.62);
+      color:#fff;
+      font-size:clamp(12px,2.4vw,20px);
+      font-weight:800;
+      letter-spacing:.2px;
+      cursor:pointer;
+      backdrop-filter:blur(4px);
+      -webkit-backdrop-filter:blur(4px);
+    }
+
+    .hit{
+      position:absolute;
+      z-index:9;
+      border:0;
+      background:transparent;
+      cursor:pointer;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    /* Hotspots sobre os dois botões desenhados na arte */
+    .map{
+      left:6.3%;
+      top:68.0%;
+      width:40.7%;
+      height:7.0%;
+      border-radius:999px;
+    }
+    .gift{
+      left:50.0%;
+      top:68.0%;
+      width:40.7%;
+      height:7.0%;
+      border-radius:999px;
+    }
+
+    /* Botão VOLTAR AO CONVITE da página de presentes */
+    .back{
+      left:31%;
+      top:81.7%;
+      width:44%;
+      height:8.3%;
+      border-radius:40px;
+    }
+
+    .hit:focus-visible,.sound-btn:focus-visible{
+      outline:4px solid #fff;
+      outline-offset:2px;
+    }
+
+    @media (max-width:700px){
+      .wrap,.gift-wrap{width:100vw}
+      .sound-btn{padding:8px 11px}
+    }
+  </style>
+</head>
+<body>
+
+<section id="convite" class="screen active" aria-label="Convite do Miguel">
+  <div class="wrap">
+    <img class="art" src="pagina2.png?v=6"
+         alt="Convite de aniversário do Miguel, 1 ano, dia 27 de setembro de 2026 às 14:30, Travessa Igarapé Primavera, 313">
+
+    <div class="hero-video">
+      <video id="heroVideo" autoplay muted playsinline loop preload="auto">
+        <source src="video.mp4" type="video/mp4">
+        Seu navegador não suporta vídeo HTML5.
+      </video>
+    </div>
+
+    <button id="soundBtn" class="sound-btn" type="button" aria-label="Ativar ou desativar som">
+      🔊 ATIVE O SOM
+    </button>
+
+    <a class="hit map"
+       href="https://share.google/RATroQ6fF8vEOdBfI"
+       target="_blank"
+       rel="noopener noreferrer"
+       aria-label="Ver localização"></a>
+
+    <button class="hit gift"
+            type="button"
+            aria-label="Ver sugestão de presente"
+            onclick="showGifts()"></button>
+  </div>
+</section>
+
+<section id="presentes" class="screen" aria-label="Sugestões de presente">
+  <div class="gift-wrap">
+    <img class="art" src="presentes.png?v=6"
+         alt="Sugestões de presente para Miguel">
+    <button class="hit back"
+            type="button"
+            aria-label="Voltar ao convite"
+            onclick="showInvite()"></button>
+  </div>
+</section>
+
+<script>
+  const video = document.getElementById('heroVideo');
+  const soundBtn = document.getElementById('soundBtn');
+
+  soundBtn.addEventListener('click', async () => {
+    video.muted = !video.muted;
+    soundBtn.textContent = video.muted ? '🔊 ATIVE O SOM' : '🔇 DESATIVAR SOM';
+    if (video.paused) {
+      try { await video.play(); } catch(e) {}
+    }
+  });
+
+  function showGifts(){
+    document.getElementById('convite').classList.remove('active');
+    document.getElementById('presentes').classList.add('active');
+    video.pause();
+    window.scrollTo(0,0);
+  }
+
+  function showInvite(){
+    document.getElementById('presentes').classList.remove('active');
+    document.getElementById('convite').classList.add('active');
+    try { video.play(); } catch(e) {}
+    window.scrollTo(0,0);
+  }
+</script>
+
+</body>
+</html>
